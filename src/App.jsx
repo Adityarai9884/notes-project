@@ -1,99 +1,48 @@
-import React, { useState } from 'react'
-import { use } from 'react';
+import React from 'react'
+import Navbar from './component/Navbar'
+import Footer from './component/Footer'
+import Home from './pages/Home'
+import About from './pages/About'
+import Product from './pages/Product'
+import {Route, Routes} from 'react-router-dom'
+import NotFound from './pages/NotFound'
+import Mens from './pages/Mens'
+import Womens from './pages/Womens'
+import Aboutdetail from './pages/Aboutdetail'
+import Nav3 from './component/Nav3'
+
+
+
 
 const App = () => {
-    const [title, setTitle] = useState('')
-    const [details, setDetails] = useState('')
-    const [task, setTask] = useState([])
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // console.log(title);  
-    // console.log(details);
-    const copytask = [...task]; // aise copy karte hai hm
-
-    copytask.push({title,details})
-    setTask(copytask)
-    console.log(task)
-
-    setTitle('')
-    setDetails('')
-  }
-  const Deletenote = (idx) => {
-    console.log("delete note clicked");
-    const copytask = [...task];
-    copytask.splice(idx,1);
-    setTask(copytask);
-  }
   return (
-    
-      <div className='h-screen bg-gray-800 lg:flex text-white'>
-    {/* // {  <h1 className='bg-white w-50 flex justify-center h-10 px-2 py-1  text-black border-2'>Amelie</h1> } */}
+    <div className='h-screen bg-black text-white'>
       
-    {/* // <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white"> */}
-
-     <form className='flex  items-center flex-col  lg:w-1/2  gap-4  p-10'
-      onSubmit={(e) => submitHandler(e) 
-
-      }>
+      <Navbar />
+      <Nav3 />
+       <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/about/:id' element={<Aboutdetail />} />
+         <Route path='*' element={<NotFound />} />
+        <Route path='/product' element={<Product />}>
+        <Route path='/product/mens' element={<Mens />} />
+        <Route path='/product/womens' element={<Womens />} />
+        </Route> 
+        
+      </Routes> 
+      <Footer />
      
-     <h1 className='text-3xl text-black font-bold border-2 bg-amber-50'> ADD NOTES</h1>
-
-     {/* phela input */}
-        <input
-         className='border-2 rounded bg-white text-black px-5 w-full py-2 m-4'
-         type="text"
-          placeholder='enter the text'
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value)
-          }}
-          />
-
-      {/* detailed input */}
-      <textarea className='border-2 bg-black
-       text-white px-5 w-full h-20 py-2 rounded'
-       placeholder='enter the thought'
-        name=""
-         id=""
-         value={details}
-         onChange={(e)=> {
-          setDetails(e.target.value)
-         }}
-         />
-
-
-      <button className='bg-gray-700 border-2 active:bg-black rounded px-5 py-2 w-full m-4'>ADD NOTES</button>
-     
-     </form>
-
-      <div className='lg:w-1/2  lg:border-l-2 p-10'>
-     {/* <div className="w-fit h-fit  p-4 rounded-lg shadow-lg"> */}
-     <h1 className='text-4xl border-2 bg-pink-100 w-fit text-black  font-bold'> YOUR NOTES</h1>
-      <div className='flex flex-wrap items-start justify-start gap-5 mt-6 overflow-auto h-[90%] '>
-       {task.map(function(elem,idx){
-
-        return  <div  key={idx} className="h-56 w-44 bg-cover justify-between items-start flex flex-col overflow-hidden rounded-xl p-4 bg-[url('data:image/jpeg;base64,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')]">
-
-         <div>
-           <h3 className='leading-tight text-black p-4 font-bold text-lg'>{elem.title}</h3>
-          <p className='overflow-auto leading-tight font-semibold text-blue-500'>{elem.details}</p>
-         </div>
-         <button onClick={() => {
-          Deletenote(idx);
-         }} className='w-full bg-red-900 cursor-pointer active:scale-95 text-white py-1 text-xs rounded font-bold'>Delete</button>
-        </div>
-       
-       })}
       
-      </div>
-     </div>
+      
+
+
     </div>
-
-    
   )
 }
 
 export default App
+
 
 
 
@@ -166,3 +115,66 @@ export default App
   // setNum(prevNum => prevNum + 1);
   // setNum(prevNum => prevNum + 1);
   // isse kya hoga ki jb hm button pe click karenge to wo 3 baar increase ho jaayega
+  // in local storage we set the item in key value pair like how (key:name, value :aditya)
+  // local sotrage mai file string ki form mai jaati hai to ab hm pura ka pura aary bhej na ho to kaise karenge
+  // uske liye hm use karenge JSON.stringfy("file ka naam")
+  //const App = () => {
+  // const user = {
+  //   name : "Aditya",
+  //   age : 19,
+  //   city : "ghazipur"
+  // }
+
+  // localStorage.setItem('User', JSON.stringify(user))
+  // AUR AB TUME JAISA DATA THA USSI FORM MAI CHAIYE TO USKE LIYE HM USE AKRTE HAI 
+  // JASON.prase
+  // we connect both backend a`nd frontend by the help of API
+  // API : Application programming interface
+  // ek set of rules hote hai jisse ki do application ek dusare se baat kar sake  
+  // two method to call api
+  // 1. fetch api : is bit difficult than axios
+  // 2. axios : easy to use than fetch api
+  // ye dono hogya ab inko kaisse use karenge: use state and useeffect ka use karenge
+  // use effect mai hm api call karenge aur use state mai usse store karenge
+  // use effect mai react ki proesss chati rehagei but useeffect add karne se properties sath sath chakegi
+  // and  chlata kb hai jb react ka main function chal jata hai pura tbb iske baad useeffect chalta hai
+  // jb jb set ki value change hogi tb tb useeffect chalega
+  // agar hm chahte hai ki sirf ek baar chale to hm kya karenge
+  // useeffect ke baad ek empty array [] de denge jisse ki wo sirf ek baar chalega
+  // [] iska mtlb hai hmne koi dependency nahi di isliye sirf ek baar chalega
+  // ab jaise jaise dependency badhegi waise waise useeffect chalega
+  // react router dom react as a single page application banata hai
+  // single page application mtlb ki jb hm ek page pe honge to wo pura page reload nahi karega balki sirf 
+  // ussi component ko reload karega jaha change hua hai
+  // routing ke andar bhot sari chige aati hai jaise ki nested routing , dynamic routing , protected routing
+  // to nested routing mtlb ki ek route ke andar dusara route hona jaise ki /home ke andar /home/profile /home/settings aise kuch aur routes hona
+  // dynamic routing mtlb ki jb hmara route kuch dynamic ho jaise ki /product/1 , /product/2 , /product/3
+  // to yaha pe 1,2,3 dynamic hai jo bhi product ka id hoga wo aa jayega
+  // protected routing mtlb ki jb hm koi aisa route banate hai jo sirf logged in user ke liye ho jaise ki /dashboard , /profile aise kuch routes hote hai jo sirf logged in user ke liye hote hai
+  // to iske liye hm protected routing ka use karte hai jisse ki agar user logged in nahi hai to wo us route pe nahi jaa sakta
+  // useparams : jb hm dynamic routing karte hai to usme hm useparams ka use karte hai jisse ki hm us dynamic part ko access kar sake
+  // useNavigate : jb hm kisi route se dusare route pe jana chahte hai to usme hm useNavigate ka use karte hai
+  // jaise ki jb hm login karte hai to hm login page se dashboard page pe chalte hai to isme hm useNavigate ka use karte hai
+  // use navigate ka samaj gya sab mai baki next aur back jana hoga to +1 ya -1 ka navigate(+1/-1) 
+  // aise karke use kar lenege
+  // navlink : jb hm kisi bhi page pe hote hai to usme hm navlink ka use karte hai jisse ki hm us page pe active class de sake
+  // jaise ki agar hm home page pe hai to home link pe active class lag jayegi
+  // jisse ki user ko pata chal jayega ki wo kis page pe hai
+    // navlink mai active class ko customize kar sakte hai jaise ki activeClassName ya activeStyle
+  // link : jb hm kisi bhi page se dusare page pe jana chahte hai to usme hm link ka use karte hai
+  // jaise ki jb hm home page se about page pe jana chahte hai to usme hm link ka use karte hai
+  // setTheme value chnage krne ka kaam karta hai 
+  // jaise ususlayy hm parent se child ki taraf deta flow hota hai 
+  // lekin jb hm chahte hai ki child se parent ki taraf bhi data jaaye to uske liye hm callback function ka use karte hai
+  // jaise ki hmne App.jsx mai setTheme banaya and usse Navbar ko bhej diya as a prop
+  // ab Navbar mai jb bhi theme change karna hoga to wo App.jsx mai setTheme ko call karke theme change kar dega
+  // prop drilling : jb hm ek se jyada level pe props bhejte hai to usme prop drilling hota hai
+  // jaise ki App.jsx se Navbar.jsx ko props bhejte hai and Navbar.jsx se Header.jsx ko props bhejte hai
+  // to isme prop drilling hota hai jisse ki code complex ho jata hai
+  // iske liye hm context api ka use karte hai jisse ki hm easily props ko manage kar sake
+  // context api : jb hm global state manage karte hai to usme hm context api ka use karte hai
+  // jaise ki agar hm ek theme banate hai to usme hm context api ka use karte hai jisse ki hm easily theme ko manage kar sake
+  // context api mai hm createContext , Provider , Consumer ka use karte hai
+  // createContext : jb hm context banate hai to usme hm createContext ka use karte hai
+  // Provider : jb hm context ko provide karte hai to usme hm Provider ka use karte hai
+  // Consumer/usecontext : jb hm context ko consume karte hai to usme hm Consumer ka use karte hai
